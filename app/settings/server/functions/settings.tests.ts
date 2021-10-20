@@ -336,8 +336,8 @@ describe('Settings', () => {
 		Settings.settings = settings;
 		const settingsRegistry = new SettingsRegistry({ store: settings, model: Settings as any });
 
-		settings.watch('setting_callback', spy, { debounce: 10 });
-		settings.watchByRegex(/setting_callback/ig, spy2, { debounce: 10 });
+		settings.watch('setting_callback', spy, { debounce: 1 });
+		settings.watchByRegex(/setting_callback/ig, spy2, { debounce: 1 });
 
 		settings.initilized();
 		settingsRegistry.addGroup('group', function() {
@@ -349,9 +349,9 @@ describe('Settings', () => {
 		});
 
 		setTimeout(() => {
-			settings.on('*', () => setTimeout(() => {
+			settings.once('*', () => setTimeout(() => {
 				done();
-			}, settings.getConfig({ debounce: 10 }).debounce));
+			}, settings.getConfig({ debounce: 1 }).debounce * 10));
 
 			Settings.updateValueById('setting_callback', 'value3');
 			setTimeout(() => {
@@ -359,7 +359,7 @@ describe('Settings', () => {
 				expect(spy2).to.have.been.called.exactly(2);
 				expect(spy).to.have.been.called.with('value2');
 				expect(spy).to.have.been.called.with('value3');
-			}, settings.getConfig({ debounce: 10 }).debounce);
-		}, settings.getConfig({ debounce: 10 }).debounce);
+			}, settings.getConfig({ debounce: 1 }).debounce);
+		}, settings.getConfig({ debounce: 1 }).debounce);
 	});
 });
