@@ -6,6 +6,9 @@
 		"name": "Rocket.Chat",
 		"url": "https://rocket.chat/"
 	},
+	"engines": {
+		"node": "12.22.1"
+	},
 	"keywords": [
 		"rocketchat",
 		"rocket",
